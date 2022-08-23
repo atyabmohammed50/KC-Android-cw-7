@@ -1,6 +1,8 @@
 package com.example.myapplication;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +36,43 @@ public class foodAdapter extends ArrayAdapter {
         foodnametext.setText(currentFood.getFoodname());
         foodpricetext.setText(String.valueOf(currentFood.getFoodprice()));
         foodimageview.setImageResource(currentFood.getFoodImage());
+
+
+
+        ImageView deletebtn = view.findViewById(R.id.deletebtn);
+        deletebtn.setOnClickListener(new View.OnClickListener() {
+            Food removedFood = foodlist.get(position);
+            @Override
+            public void onClick(View view) {
+
+                AlertDialog.Builder bulder = new AlertDialog.Builder(getContext()).setMessage("Are you sure you want to delete that?" )
+                        .setTitle("Confirmation").setPositiveButton("Delete", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                foodlist.remove(removedFood);
+                                notifyDataSetChanged();
+
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                                dialogInterface.dismiss();
+
+                            }
+                        });
+
+                bulder.show();
+
+            }
+        });
+
+
+
+
+
+
 
           return view;
     }
